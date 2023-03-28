@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Dashboard</title>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <br>
+        <div style="text-align: right; font-size: 40px;"><a href="/logout" style="color: rgb(170, 11, 11);">logout</a></div>
+        <br>
+        <br>
+        <h1 style="position: center; color: rgb(170, 11, 11);"><u>Welcome <%-name %></u></h1>
+        <br>
+        <br>
+        <h2 style="color: rgb(170, 11, 11) ;">Having a product to sell : <a href="/sell" style="font-style:italic"> Sell here</a></h2>
+        <center style="font-size: 30px;">MY PRODUCTS</center>
+        <div style="display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px">
+        <%for(i=0;i<products.length;i++){
+            if(products[i].quantity > 0) {%>
+            <div style=" color: rgb(120, 7, 7); ">
+                product name : <%-products[i].productName%><br>
+                Quantity available : <%-products[i].quantity%><br>
+                price : <%-products[i].price%><br>
+                type : <%-products[i].type%><br>
+                buyers : <%-products[i].buyers%><br>
+                <form method="POST" action="/updateProduct">
+                    <input type="text" name="id" value='<%-products[i]._id%>' hidden>
+                    <br>
+                    New Price : <input type="number" name ="price" value="<%-products[i].price%>">
+                    <br>
+                    available Quantity : <input type="number" name ="quantity" value="<%-products[i].quantity%>">
+                    <br>
+                    <input type="submit" value="update Product">
+                    </form>
+                    <br>
+                    <form method="POST" action="/removeProduct">
+                        <input type="text" name="id" value='<%-products[i]._id%>' hidden>
+                        <input type="submit" value="Remove Product">
+                        </form>
+                        <br><br>
+            </div> 
+        <%}}%>
+    </div>
+        <br>
+        <br>
+        <center style="color:rgb(111, 21, 31); font-size: 35px;">Sold Out products</center>
+        <div style="display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 10px">
+        <%for(i=0;i<products.length;i++){
+            if(products[i].quantity == 0) {%>
+            <div style="color:rgb(113, 8, 34);">
+                product name : <%-products[i].productName%><br>
+                price : <%-products[i].price%><br>
+                type : <%-products[i].type%><br>
+                buyers : <%-products[i].buyers%><br>
+            </div> 
+
+            <br>
+            <br>
+        <%}}%>
+    </div>
+    </body>
+</html>

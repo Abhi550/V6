@@ -1,0 +1,29 @@
+<html>
+  <head>
+  <title>login</title>
+</head>
+<body style=" background-image: url('background.jpg'); background-repeat: no-repeat; background-size: cover;">
+  <div style="text-align: left; font-size: 40px;"><a href="/" style="color: rgb(170, 11, 11);">Home</a></div>
+    <center> 
+      <br>
+      <br>
+      <div style="color: black ; font-size: 40px;">
+        <%if ( note != "no" ) {%>
+       <h4><center><%-note%></center></h4>
+       <%}%> 
+        <h4>User login</h4>
+        <form method="POST" action="/signin">
+        gmail : <input type="text" name="gmail">
+        <br>
+        <br>
+        password : <input type="password" name ="password">
+        <br>
+        <br>
+        <input type="submit" value="login">
+        </form>
+      </div>
+
+</center>
+
+    </body>
+</html>

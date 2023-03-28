@@ -1,0 +1,39 @@
+<html>
+  <head>
+  <title>login</title>
+</head>
+<body style=" background-image: url('background.jpg'); background-repeat: no-repeat; background-size: cover; font-size: medium;"> 
+  <div style="text-align: left; font-size: 40px;"><a href="/dashboard" style="color: rgb(170, 11, 11);">Dashboard</a></div>
+    <%if ( note != "no" ) {%>
+        <h4><center><%-note%></center></h4>
+        <%}%> 
+      <div>
+       <center>
+        <h3>Enter product details <%-name %></h3>
+        <form method="POST" action="/addProduct">
+        <br>
+        Product Name : <input type="text" name="productName">
+        <br>
+        <br>
+        <label for="type">Choose a type:</label>
+        <select id="type" name="type">
+            <option value="books">Books</option>
+            <option value="instruments">instruments</option>
+            <option value="other">others</option>
+        </select>
+        <br>
+        <br>
+        Quantity : <input type="number" name ="quantity">
+        <br>
+        <br>
+        Price per quantity : <input type="number" name ="price">
+        <br>
+        <br>
+        <input type="submit" value="Add product">
+        </form>
+        </center>
+      </div>
+
+
+    </body>
+</html>
