@@ -1,0 +1,70 @@
+<html>
+    <head>
+        <title>SignUp</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">LogIn</a></li>
+            <li style="float:right"><a class="active" href="/signup">Register</a></li>
+          </ul>
+  <center>
+      <div style="color: rgb(108, 12, 45); font-size: 30px;">
+        <h3>User Creation</h3>
+        <form method="POST" action="/userCreation">
+        <table>
+          <tr>
+            <td>GMail</td>
+            <td><input type="email" name="gmail"></td>
+          </tr>
+          <tr>
+            <td>Password</td>
+            <td><input type="password" name ="password"></td>
+          </tr>
+          <tr>
+            <td>Name</td>
+            <td><input type="text" name="name"></td>
+          </tr>
+          <tr>
+            <td>Phone</td>
+            <td><input type="number" name ="phone" min="999999999" max="9999999999"></td>
+          </tr>
+          <tr>
+            <td colspan="2" align="center"><input type="submit" value="Create Account"></td>
+          </tr>
+        </table>
+        </form>
+      </div>
+
+</center>
+    </body>
+</html>

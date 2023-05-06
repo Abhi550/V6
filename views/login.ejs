@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Login</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">LogIn</a></li>
+            <li style="float:right"><a class="active" href="/signup">Register</a></li>
+          </ul>
+    <center> 
+
+      <div style="color: black ; font-size: 40px;">
+        <%if ( note != "no" ) {%>
+       <h4><center><%-note%></center></h4>
+       <%}%> </div>
+       <h4>User login</h4>
+
+       <form method="POST" action="/signin">
+       <table>
+        <tr>
+          <td>Gmail</td>
+          <td><input type="email" name="gmail"></td>
+        </tr>
+        <tr >
+          <td>Password</td>
+          <td><input type="password" name ="password"></td>
+        </tr>
+        <tr >
+          <td colspan="2"><input type="submit" value="login"></td>
+        </tr>
+       </table>
+        </form>
+      
+
+</center>
+
+    </body>
+</html>
