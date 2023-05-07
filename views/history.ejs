@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <title>History</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+          <li><a href="/home">Home</a></li>
+          <li style="float:right"><a class="active" href="/logout">Logout</a></li>
+          <li style="float:right"><a href="/cart">Cart</a></li>
+          <li style="float:right"><a href="/notification">Notifications</a></li>
+          <li style="float:right"><a href="/history">History</a></li>
+          <li style="float:right"><a href="/sell">Sell</a></li>
+          <li style="float:right"><a href="/dashboard">MY Profile</a></li>
+          </ul>
+    <h3>My History</h3>
+    <div style="display: grid;
+        grid-template-columns: auto auto auto;
+        padding: 20px">
+        
+        <%for(i=0;i<products.length;i++){%>
+            <div style="  background-color: rgb(226, 166, 14); padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+              <img src='/upload/<%-products[i].imagepath%>' style="width:200px;height:200px;"><br>
+                Product name : <%-products[i].productName%><br>
+                Description : <%-products[i].description%><br>
+                Quantity : <%-products[i].quantity%><br>
+                price/item: <%-products[i].price%><br>
+                Amount :  <%-products[i].total%><br>
+                Seller: <%-products[i].seller%><br>
+                Date: <%-products[i].date%><br>
+                <br>
+                <br>
+            </div> 
+
+        <%}%>
+    </div>
+
+</body>

@@ -41,7 +41,7 @@
             <li style="float:right"><a href="/sell">Sell</a></li>
             <li style="float:right"><a href="/dashboard">MY Profile</a></li>
           </ul>
-    <h3>My Cart</h3>
+    <center style="font-size: 35px;">My Cart</center>
     <div style="display: grid;
         grid-template-columns: auto auto auto;
         padding: 10px">
@@ -53,7 +53,6 @@
         <%}
         else{
         
-        
         for(i=0;i<products.length;i++){%>
             <div style=" color: rgb(120, 7, 7); ">
                 <img src='/upload/<%-products[i].imagepath%>' style="width:200px;height:200px;"><br>
@@ -61,13 +60,20 @@
                 Description : <%-products[i].description%><br>
                 Quantity : <%-products[i].quantity%><br>
                 price/item: <%-products[i].price%><br>
-                Amount :  <%-products[i].total%><br>
+                Amount :  <%-(products[i].quantity * products[i].price)%><br>
                 <form method="POST" action="/updateCart">
                     <input type="text" name="operation" value="remove" hidden>
                     <input type="text" name="id" value='<%-products[i].productId%>' hidden>
                     <input type="submit" value="Remove Item">
                 </form>
-                <%sum = sum + products[i].total%>
+                Request seller:<br>
+                <form method="POST" action="/request">
+                  <input type="text" name="id" value='<%-products[i].productId%>' hidden>
+                  Message: <input type="text" name="message"><br>
+                  Price: <input type="number" name="reqPrice"><br>
+                  <input type="submit" value="Request seller">
+               </form>
+                <%sum = sum + products[i].price * products[i].quantity %>
             </div> 
         <%}%>
         <br>
