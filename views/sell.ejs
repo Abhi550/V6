@@ -1,35 +1,90 @@
 <html>
-  <head>
-  <title>login</title>
-</head>
-<body style=" background-image: url('background.jpg'); background-repeat: no-repeat; background-size: cover; font-size: medium;"> 
-  <div style="text-align: left; font-size: 40px;"><a href="/dashboard" style="color: rgb(170, 11, 11);">Dashboard</a></div>
+    <head>
+        <title>Sell</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+          <li><a href="/home">Home</a></li>
+          <li style="float:right"><a class="active" href="/logout">Logout</a></li>
+          <li style="float:right"><a href="/cart">Cart</a></li>
+          <li style="float:right"><a href="/notification">Notifications</a></li>
+          <li style="float:right"><a href="/history">History</a></li>
+          <li style="float:right"><a href="/sell">Sell</a></li>
+          <li style="float:right"><a href="/dashboard">MY Profile</a></li>
+          </ul>
+
     <%if ( note != "no" ) {%>
         <h4><center><%-note%></center></h4>
         <%}%> 
       <div>
        <center>
-        <h3>Enter product details <%-name %></h3>
-        <form method="POST" action="/addProduct">
-        <br>
-        Product Name : <input type="text" name="productName">
-        <br>
-        <br>
-        <label for="type">Choose a type:</label>
-        <select id="type" name="type">
-            <option value="books">Books</option>
-            <option value="instruments">instruments</option>
-            <option value="other">others</option>
-        </select>
-        <br>
-        <br>
-        Quantity : <input type="number" name ="quantity">
-        <br>
-        <br>
-        Price per quantity : <input type="number" name ="price">
-        <br>
-        <br>
-        <input type="submit" value="Add product">
+        <h3 style="font-size: 35px;">Enter product details <%-name %></h3>
+        <form method="POST" action="/addProduct" encType="multipart/form-data">
+          <table style="font-size: 30px;">
+            <tr>
+              <td>Product Name</td>
+              <td><input type="text" name="productName" required></td>
+            </tr>
+            <tr>
+              <td>Description</td>
+              <td><input type="text" name="description" maxlength="250" required></td>
+            </tr>
+            <tr>
+              <td><label for="type">Choose a type:</label></td>
+              <td>
+                <input type="radio" name="type" value="books">Books<br>
+                <input type="radio" name="type" value="instruments">Instruments<br>
+                <input type="radio" name="type" value="electronics">Electronics<br>
+                <input type="radio" name="type" value="clothing">Clothing<br>
+                <input type="radio" name="type" value="other">Others<br>
+              </td>
+            </tr>
+            <tr>
+              <td>Quantity</td>
+              <td><input type="number" name ="quantity" min="1" required></td>
+            </tr>
+            <tr>
+              <td>Price per each</td>
+              <td><input type="number" name ="price" min="0" required></td>
+            </tr>
+            <tr>
+              <td>Upload Product image</td>
+              <td><input type="file" name ="productimage" required></td>
+            </tr>
+            <tr>
+              <td colspan="2"><center><input type="submit" value="Add product" style="width: 150px; height: 40px;"></center></td>
+              
+            </tr>
+          </table>
         </form>
         </center>
       </div>

@@ -1,16 +1,44 @@
 <html>
     <head>
-        <title>Home</title>
+        <title>Login</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
     </head>
-    <body style="color:black; background-image: url('background.jpg'); background-repeat: no-repeat; background-size: cover;">
-        <br>
-        <center><span style="font-size: 80px;">Welcome to Unwanted Student Bazaar</span></center>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/login">LogIn</a></li>
+            <li style="float:right"><a class="active" href="/signup">Register</a></li>
+          </ul>
+       <div style="padding: 10%"> <center><span style="font-size: 80px; align-items: center;">Welcome to Unwanted Student Bazaar</span></center></div>
+
         <br><br>
-        <center>
-        <div style="color: black;">
-            <h3><a href="/login">LOGIN</a></h3>
-            <h3><a href="/signup">New User</a></h3>
-        </div>
-        </center>
     </body>
 </html>

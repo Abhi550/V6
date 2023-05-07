@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const mongoose = require('mongoose');
 const routes = require('./routes');
 const cookieParser = require('cookie-parser');
-
+const fileUpload = require('express-fileupload');
 const app = express();
 const port = 3000;
 
@@ -16,6 +16,8 @@ mongoose.connect(
   `mongodb+srv://${username}:${password}@${cluster}.kgftxvt.mongodb.net/?retryWrites=true&w=majority`
 );
 
+// Use the express-fileupload middleware
+app.use(fileUpload());
 
 
 // configure middleware

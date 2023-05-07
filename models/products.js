@@ -4,10 +4,12 @@ const { stringify } = require('querystring');
 const productSchema = mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
     productName: String,
+    description : String,
+    imagepath: String,
     type : String,
     seller : String,
     quantity : Number,
-    buyers : [{gmail : String}],
+    buyers : [String],
     price : Number
 
 });
