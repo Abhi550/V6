@@ -1,0 +1,181 @@
+<html>
+    <head>
+        <title>Dashboard</title>
+        <style>
+          #navUl {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+          }
+          
+          #nav {
+            float: left;
+          }
+          
+          #nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+          }
+          
+          #nav a:hover:not(.active) {
+            background-color: #111;
+          }
+          
+          .active {
+            background-color: #04AA6D;
+          }
+          </style>
+    </head>
+    <body style="margin:0px;">
+        <div style="background-color: rgb(24, 142, 113); width: 100%; height: 10%;"> 
+          
+                <div style="background-color: rgb(24, 142, 113); width: 100%; height: 50%; align-content: center;">
+                  <center style="font-size: 200%; font-weight: bolder;">STUDENT BAZAAR</center><br>
+                </div>
+                <div style="background-color: rgb(24, 142, 113); width: 100%; height: 50%; align-content: center; padding-bottom: 5px;">
+                  <ul id="navUl">
+                    <li id="nav"><center style="font-size: 200%; font-weight: bolder; color: aliceblue;">Welcome <%-name%></center></li>
+                    <li id="nav" style="float:right"><a class="active" href="/logout">Logout</a></li>
+                    <li id="nav" style="float:right"><a href="/cart">Cart</a></li>
+                    <li  id="nav" style="float:right" ><a href="/notification">Notifications</a></li>
+                    <li id="nav" style="float:right"><a href="/sell">Sell</a></li>
+                    <li id="nav" style="float:right" ><a href="/dashboard">My Profile</a></li>
+                  </ul>
+                </div>
+        
+        
+        </div>  
+        <div style="background-color: rgb(255, 255, 255); width:100%; height: 90%;">  
+                    <div style="background-color: rgb(213, 227, 105); width: 10%; height: 100%; float:left; font-size: large;">  
+           
+
+
+            
+          <div style="padding-left: 5px;">
+              <form method="post" action="/searchByCat" >
+                  <label for="type"><h3><b>Categories:</b></h3></label>
+                  <input type="radio" name="type" value="books">Books<br>
+                  <input type="radio" name="type" value="instruments">Instruments<br>
+                  <input type="radio" name="type" value="electronics">Electronics<br>
+                  <input type="radio" name="type" value="clothing">Clothing<br>
+                  <input type="radio" name="type" value="other">Others<br>
+                  <input type="radio" name="type" value="all">All<br>
+                  <input type="submit" value="search"><br>
+              </form>
+             </div>
+             
+
+
+
+             <!--<div>
+              <ul style="list-style-type: none; margin: 0; padding: 0; ">
+                <li  ><a href="/dashboard">My Profile</a></li> 
+                <li  ><a href="/notification">Notifications</a></li> 
+                <li ><a href="/cart">Cart</a></li>
+                <li ><a  href="/logout">Logout</a></li>
+                
+              </ul>
+             </div>
+-->
+
+
+
+            <!-- <div style="height: 10% ; background-color: rgb(3, 171, 3);">
+               <a href="/dashboard" style="font-weight:bold;">My Profile</a>
+             </div>
+             <div style="height: 10%; background-color: rgb(3, 130, 3);">
+              <a href="/notification" style="font-weight:bold;">Notifications</a>
+             </div>
+             <div style="height: 10%; background-color: rgb(2, 122, 2);">
+              <a href="/cart" style="font-weight:bold;">My Cart</a>
+            </div>
+             <div style="height: 10% ; background-color: rgb(4, 121, 4);">
+              <a href="/logout" style="font-weight:bold;">Logout</a>
+            </div>-->
+      
+             
+
+
+
+
+                    </div>  
+              
+                    <div style="background-color: rgb(255, 255, 255); width: 90%; height: 100%; float:left; display: grid;
+                    grid-template-columns: auto auto auto auto; overflow-y: auto;">  
+                              
+                      <%for(i=0;i<products.length;i++){
+                          if(products[i].quantity > 0 && products[i].seller != gmail ) {%>
+                          <div style=" background-color: rgb(226, 166, 14); padding: 15px; width: fit-content; margin: 10px; height: fit-content;">
+                               
+                            <table>
+                              <%imagepath = "/upload/"+ products[i].imagepath %>
+                              <tr>
+                                  <td colspan="2" align="center"><img src=<%-imagepath%> style="width:200px;height:200px;"></td>
+                              </tr>
+                              <tr>
+                                  <td>Name:</td>
+                                  <td><%-products[i].productName%></td>
+                              </tr>
+                              <tr>
+                                  <td>Description:</td>
+                                  <td><p style="inline-size: 150px; overflow-wrap: break-word;"><%-products[i].description%></p></td>
+                              </tr>
+                              <tr>
+                                  <td>Available Quantity:</td>
+                                  <td><%-products[i].quantity%></td>
+                              </tr>
+                              <tr>
+                                  <td>Price:</td>
+                                  <td><%-products[i].price%></td>
+                              </tr>
+                              <tr>
+                                  <td>Type:</td>
+                                  <td><%-products[i].type%></td>
+                              </tr>
+    
+                              <tr>
+                                <td>
+                                  <form method="POST" action="/addToCart">
+                                    <input type="text" name="id" value='<%-products[i]._id%>' hidden>
+                                    <input type="text" name="imagepath" value='<%-products[i].imagepath%>' hidden>
+                                    <input type="text" name="productName" value='<%-products[i].productName%>' hidden>
+                                    <input type="text" name="description" value='<%-products[i].description%>' hidden>
+                                    Quantity Required : 
+                                    <input type="number" name="price" value='<%-products[i].price%>' hidden>
+                                    <input type="text" name="seller" value='<%-products[i].seller%>' hidden>
+                                   
+                                </td>
+                                <td>
+                                  <input type="number" name="quantity" min="1" max='<%-products[i].quantity%>' required>
+          
+                                </td>
+                              </tr>
+                              <tr>
+                                <td colspan="2" align="center"><input type="submit" value="Add To Cart">
+                                </form>
+                              </td>
+                              </tr>
+                            </table>
+
+
+
+
+                            
+                          </div> 
+                      <%}}%>
+                      
+
+
+
+                    </div>  
+        </div>  
+     
+    </body>
+</html>
+
+

@@ -65,7 +65,6 @@ exports.searchByCat = (req, res, next) =>{
 
 exports.addToCart = (req , res , next) =>{
   console.log("adding to cart");
-  total = req.body.quantity * req.body.price;
   const cartItem = {
     imagepath : req.body.imagepath,
     productId : req.body.id,
@@ -73,8 +72,7 @@ exports.addToCart = (req , res , next) =>{
     description : req.body.description,
     quantity : req.body.quantity,
     price : req.body.price,
-    seller : req.body.seller,
-    total : total  
+    seller : req.body.seller
   };
   User.updateOne({gmail : req.userData.gmail},{$push :  {cart : cartItem}})
   .exec()
@@ -133,7 +131,7 @@ exports.buy = (req , res , next) =>{
         quantity : cart[i].quantity,
         price : cart[i].price,
         seller : cart[i].seller,
-        total : cart[i].total,
+        total : cart[i].quantity * cart[i].price ,
         date : Date.now()
         };
         User.updateOne({gmail : req.userData.gmail},{$push :  {history : history}})
@@ -149,7 +147,7 @@ exports.buy = (req , res , next) =>{
                         productName : cart[i].productName,
                         description : cart[i].description,
                         quantity : cart[i].quantity,
-                        total : cart[i].total,
+                        total : cart[i].quantity * cart[i].price,
                         date : Date.now()
                       }
                       User.updateOne({gmail : cart[i].seller}, {$push : {notification : notification}})
@@ -266,4 +264,126 @@ exports.removeProduct = (req , res , next) => {
         error: err
       });
     });
+};
+
+
+//upadte the request to seller notification
+exports.requestSeller =(req, res, next) => {
+  Product.findOne({_id : req.body.id})
+  .exec()
+  .then(product => {
+    const notification = {
+      productName : product.productName,
+      productId : product._id,
+      reqUser : req.userData.gmail,
+      reqPrice : req.body.reqPrice,
+      message : req.body.message,
+      reqStatus : "new",
+      reqId : new mongoose.mongo.ObjectId(),
+      cat : "change",
+      iam : "seller"
+
+    }
+    User.updateOne({gmail : product.seller}, {$push :  {notification : notification}})
+    .exec()
+    .then(data => {
+      res.redirect('/notification');
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+  })
+  .catch(err => {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  });
+};
+
+
+//update the price if accepted and sent the notification
+exports.acceptRequest = (req, res, next) => {
+  if(req.body.reqStatus == "accepted"){
+    User.updateOne({gmail : req.userData.gmail, "notification.reqId" : req.body.reqId},{$set : {"notification.$.reqStatus": "approved"}},)
+    .exec()
+    .then(data => {
+      User.updateOne({gmail : req.body.reqUser, "cart.productId" : req.body.productId},{$set : {"cart.$.price" : req.body.reqPrice}})
+      .exec()
+      .then(data2 => {
+        console.log("inside accc iner loop");
+        const noti = {
+          cat : "change",
+          productId: req.body.productId,
+          productName: req.body.productName,
+          reqStatus : "approved",
+          reqId : req.body.productId,
+          reqPrice : req.body.reqPrice,
+          iam : "buyer"
+        }
+        User.updateOne({gmail : req.body.reqUser},{$push :  {notification : noti}})
+        .exec()
+        .then(data3 => {
+          res.redirect('/notification');
+        })
+        .catch(err => {
+          console.log(err);
+          res.status(500).json({
+            error: err
+          });
+        });
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+  }
+
+
+
+  else if(req.body.reqStatus == "rejected"){
+    User.updateOne({gmail : req.userData.gmail,"notification.reqId" : req.body.reqId},{"notification.$.reqStatus": "rejected"})
+    .exec()
+    .then(data => {
+      const noti = {
+        cat : "change",
+        productId: req.body.productId,
+        productName: req.body.productName,
+        reqStatus : "rejected",
+        reqId : req.body.productId,
+        reqPrice : req.body.reqPrice,
+        iam : "buyer"
+      }
+      User.updateOne({gmail : req.body.reqUser},{$push :  {notification : noti}})
+      .exec()
+      .then(data2 => {
+        res.redirect('/notification');
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({
+        error: err
+      });
+    });
+  }
+
 };

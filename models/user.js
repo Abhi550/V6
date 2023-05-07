@@ -36,8 +36,11 @@ const userSchema = mongoose.Schema({
         productId:  String,
         message : String,
         reqPrice : Number,
-        cat: String,  //soldout //request  //change
-        reqStatus : String  //new //rejected //approved
+        reqUser : String,
+        cat: String,  //soldout //request to show seller after buy  //change to show buyer
+        reqStatus : String,  //new //rejected //approved
+        reqId : mongoose.Schema.Types.ObjectId,
+        iam : String //buyer //seller
     }]
 
 });

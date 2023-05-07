@@ -30,10 +30,10 @@ exports.signin = (req , res , next) => {
         if(user[0].password == req.body.password)
         {
           console.log("i am in sign in");
-          var token = jwt.sign({ gmail : user[0].gmail}, "secret3256");
+          var token = jwt.sign({ gmail : user[0].gmail, name: user[0].name , phone: user[0].phone }, "secret3256");
             res.cookie('token', token, cookieConfig);
             res.cookie('name', user[0].name, cookieConfig );
-            return res.status(200).redirect('/dashboard');
+            return res.status(200).redirect('/home');
         }
         else 
         {
@@ -84,12 +84,62 @@ exports.logout = (req , res , next) =>{
 
 exports.dashboard = (req , res , next) =>{
   console.log('in dash board');
-  Product.find({seller : req.userData.gmail})
+  Product.find()
+  .select({ _id: 1, productName: 1, description: 1, type : 1, seller : 1, quantity : 1, price : 1, imagepath : 1, buyers : 1})
   .exec()
       .then(products => {
-        return res.render('./dashboard',{name : req.signedCookies.name , products : products});
+        return res.render('./dashboard',{name : req.signedCookies.name, phone : req.userData.phone , products : products , gmail : req.userData.gmail});
       })
       .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+};
+
+
+exports.cart = (req , res, next) => {
+  console.log("In Cart");
+  User.findOne({gmail : req.userData.gmail})
+  .select({cart : 1})
+  .exec()
+  .then(cart => {
+    console.log(cart);
+    return res.render('./cart',{ name : req.signedCookies.name , products : cart.cart, sum : 0, note : "no"});
+  })
+  .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+};
+
+exports.history = (req, res, next) =>{
+  User.findOne({gmail : req.userData.gmail})
+  .select({history : 1})
+  .exec()
+  .then(history => {
+    return res.render('./history',{ name : req.signedCookies.name , products : history.history});
+  })
+  .catch(err => {
+        console.log(err);
+        res.status(500).json({
+          error: err
+        });
+      });
+};
+
+
+exports.notification = (req, res, next) =>{
+  User.findOne({gmail : req.userData.gmail})
+  .select({notification : 1})
+  .exec()
+  .then(notification => {
+    return res.render('./notification',{ name : req.signedCookies.name , products : notification.notification});
+  })
+  .catch(err => {
         console.log(err);
         res.status(500).json({
           error: err

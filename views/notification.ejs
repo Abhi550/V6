@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <title>Notifications</title>
+        <style>
+            ul {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            li {
+              float: left;
+            }
+            
+            li a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            li a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
+    </head>
+    <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul>
+          <li><a href="/home">Home</a></li>
+          <li style="float:right"><a class="active" href="/logout">Logout</a></li>
+          <li style="float:right"><a href="/cart">Cart</a></li>
+          <li style="float:right"><a href="/notification">Notifications</a></li>
+          <li style="float:right"><a href="/history">History</a></li>
+          <li style="float:right"><a href="/sell">Sell</a></li>
+          <li style="float:right"><a href="/dashboard">MY Profile</a></li>
+          </ul>
+    <h3>Notifications</h3>
+    <div style="display: grid;
+        grid-template-columns: auto;">
+        <%for(i=products.length -1 ;i>=0;i--){
+          if(products[i].cat=="request"){%>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+                Sold Product: <%-products[i].productName%><br>
+                Quantity : <%-products[i].quantity%><br>
+                Amount : <%-products[i].total%><br>
+                Contact Info: <%-products[i].gmail%><br>
+                Date: <%-products[i].date%><br>
+                <br>
+                <br>
+            </div> 
+
+        <%}
+        else if(products[i].cat=="soldout"){%>
+          <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            Product <%-products[i].productName%> in your cart as been sold out<br>
+            Date: <%-products[i].date%><br>
+            <br>
+            <br>
+        </div> 
+        <%}
+
+        else if(products[i].cat=="change"){
+          if(products[i].reqStatus == "new"){
+            %><br>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            Change In Price Request:
+            Product Name : <%-products[i].productName%><br>
+            Requested Price : <%-products[i].reqPrice%><br>
+            Message: <%-products[i].message%>
+            <form method="POST" action="/acceptRequest">
+              <input type="text" name="reqId" value=<%-products[i].reqId%> hidden>
+              <input type="text" name="productId" value=<%-products[i].productId%> hidden>
+              <input type="text" name="productName" value=<%-products[i].productName%> hidden>
+              <input type="text" name="reqUser" value=<%-products[i].reqUser%> hidden>
+              <input type="number" name="reqPrice" value=<%-products[i].reqPrice%>>
+              <input type="radio" value="accepted" name="reqStatus">Accept
+              <input type="radio" value="rejected" name="reqStatus">rejected
+              <input type="submit" value="Send">
+            </form>
+            </div>
+            <%
+          }
+          else if(products[i].reqStatus == "approved" && products[i].iam == "buyer" ){
+            %>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            Your request for Price change for product <%-products[i].productName%> has been Approved.
+            Requested Price was <%-products[i].reqPrice%>$ per item.
+            </div>
+            <% 
+          }
+          else if(products[i].reqStatus == "rejected" && products[i].iam == "buyer" ){
+            %>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            Your request for Price change for product <%-products[i].productName%> has been Rejected.
+            Requested Price was <%-products[i].reqPrice%>$ per item
+            </div>
+            <% 
+          }
+
+          else if(products[i].reqStatus == "rejected" && products[i].iam == "seller" ){
+            %>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            You have rejected Price change request for product <%-products[i].productName%>.
+            Requested Price was <%-products[i].reqPrice%>$ per item.
+            </div>
+            <% 
+          }
+
+          else if(products[i].reqStatus == "approved" && products[i].iam == "seller" ){
+            %>
+            <div style=" color: rgb(1, 2, 0); box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;padding: 15px; width: fit-content; margin: 10px; height: fit-content; ">
+            You have accepted Price change request for product <%-products[i].productName%>.
+            Requested Price was <%-products[i].reqPrice%>$ per item.
+            </div>
+            <% 
+          }
+        }
+
+      }%>
+    </div>
+
+</body>

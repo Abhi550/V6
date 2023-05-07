@@ -1,63 +1,185 @@
 <html>
     <head>
         <title>Dashboard</title>
+        <style>
+            .menu {
+              list-style-type: none;
+              margin: 0;
+              padding: 0;
+              overflow: hidden;
+              background-color: #333;
+            }
+            
+            #nav {
+              float: left;
+            }
+            
+            #nav a {
+              display: block;
+              color: white;
+              text-align: center;
+              padding: 14px 16px;
+              text-decoration: none;
+            }
+            
+            #nav a:hover:not(.active) {
+              background-color: #111;
+            }
+            
+            .active {
+              background-color: #04AA6D;
+            }
+            </style>
     </head>
     <body style=" background-image: url('background.jpg');background-repeat: no-repeat; background-size: cover;">
+        <ul class="menu">
+            <li id="nav"><a href="/home">Home</a></li>
+            <li id="nav" style="float:right"><a class="active" href="/logout">Logout</a></li>
+            <li id="nav" style="float:right"><a href="/cart">Cart</a></li>
+            <li id="nav" style="float:right"><a href="/notification">Notifications</a></li>
+            <li id="nav" style="float:right"><a href="/history">History</a></li>
+            <li id="nav" style="float:right"><a href="/sell">Sell</a></li>
+            <li id="nav" style="float:right"><a href="/dashboard">MY Profile</a></li>
+          </ul>
+        
         <br>
-        <div style="text-align: right; font-size: 40px;"><a href="/logout" style="color: rgb(170, 11, 11);">logout</a></div>
+        <div>
+            <h1>My Profile</h1>
+            <h2 style="font-size:larger ; font-weight: bold;">
+                <table style="font-size: 40px;">
+                    <tr>
+                        <td>Name:</td>
+                        <td>
+                            <%-name%>
+     
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Phone:
+                        </td>
+                        <td>
+                            <%-phone%> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Gmail:</td>
+                        <td>
+                            <%-gmail%>  
+                        </td>
+                    </tr>
+                </table>
+            </h2> 
+        </div>
+        <h2 style="color:rgb(111, 21, 31);">My Products</h2>
+        <i><b>To sell products <a href="/sell">Click Here</a></b></i>
         <br>
-        <br>
-        <h1 style="position: center; color: rgb(170, 11, 11);"><u>Welcome <%-name %></u></h1>
-        <br>
-        <br>
-        <h2 style="color: rgb(170, 11, 11) ;">Having a product to sell : <a href="/sell" style="font-style:italic"> Sell here</a></h2>
-        <center style="font-size: 30px;">MY PRODUCTS</center>
         <div style="display: grid;
         grid-template-columns: auto auto auto;
-        padding: 10px">
-        <%for(i=0;i<products.length;i++){
-            if(products[i].quantity > 0) {%>
-            <div style=" color: rgb(120, 7, 7); ">
-                product name : <%-products[i].productName%><br>
-                Quantity available : <%-products[i].quantity%><br>
-                price : <%-products[i].price%><br>
-                type : <%-products[i].type%><br>
-                buyers : <%-products[i].buyers%><br>
-                <form method="POST" action="/updateProduct">
+        padding: 10px; z-index: 1;">
+        <%
+        for(i=0;i<products.length;i++){
+            if(products[i].quantity > 0 && products[i].seller == gmail ) {%>
+            <div style="  background-color: rgb(226, 166, 14); padding: 15px; width: fit-content; margin: 10px; height: fit-content;">
+                <table>
+                    <tr>
+                        <td colspan="2" align="center"><img src='/upload/<%-products[i].imagepath%>' style="width:200px;height:200px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td><%-products[i].productName%></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td><%-products[i].description%></td>
+                    </tr>
+                    <tr>
+                        <td>Available Quantity:</td>
+                        <td><%-products[i].quantity%></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><%-products[i].price%></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td><%-products[i].type%></td>
+                    </tr>
+                    <tr>
+                        <td>Buyers:</td>
+                        <td><ul> <% for(k=0;k<products[i].buyers.length;k++){
+                            %>
+                            <li><%-products[i].buyers[k]%></li>
+                            <%
+                        }%></ul></td>
+                    </tr>
+                
+                    <form method="POST" action="/updateProduct">
                     <input type="text" name="id" value='<%-products[i]._id%>' hidden>
-                    <br>
-                    New Price : <input type="number" name ="price" value="<%-products[i].price%>">
-                    <br>
-                    available Quantity : <input type="number" name ="quantity" value="<%-products[i].quantity%>">
-                    <br>
-                    <input type="submit" value="update Product">
+                    <tr>
+                        <td>New Price:</td>
+                        <td><input type="number" name ="price" value="<%-products[i].price%>"></td>
+                    </tr>
+                    <tr>
+                        <td>Available Quantity :</td>
+                        <td><input type="number" name ="quantity" value="<%-products[i].quantity%>"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center"><input type="submit" value="update Product"></td>
+                    </tr>
                     </form>
-                    <br>
                     <form method="POST" action="/removeProduct">
                         <input type="text" name="id" value='<%-products[i]._id%>' hidden>
-                        <input type="submit" value="Remove Product">
+                        <tr>
+                            <td colspan="2" align="center"><input type="submit" value="Remove Product"></td>
+                        </tr>  
+                        
                         </form>
-                        <br><br>
+                 </table>
+                 <br>
+                 <br>
             </div> 
         <%}}%>
     </div>
-        <br>
-        <br>
-        <center style="color:rgb(111, 21, 31); font-size: 35px;">Sold Out products</center>
+
+    <h2 style="color:rgb(111, 21, 31);">Selling History</h2>
         <div style="display: grid;
         grid-template-columns: auto auto auto;
-        padding: 10px">
+        padding: 10px ; z-index: 2; ">
         <%for(i=0;i<products.length;i++){
-            if(products[i].quantity == 0) {%>
-            <div style="color:rgb(113, 8, 34);">
-                product name : <%-products[i].productName%><br>
-                price : <%-products[i].price%><br>
-                type : <%-products[i].type%><br>
-                buyers : <%-products[i].buyers%><br>
+            if(products[i].quantity == 0 && products[i].seller == gmail) {%>
+            <div style=" background-color: rgb(226, 166, 14); padding: 15px; width: fit-content; margin: 10px; height: fit-content;">
+                <table>
+                    <tr>
+                        <td colspan="2" align="center"><img src='/upload/<%-products[i].imagepath%>' style="width:200px;height:200px;"></td>
+                    </tr>
+                    <tr>
+                        <td>Name:</td>
+                        <td><%-products[i].productName%></td>
+                    </tr>
+                    <tr>
+                        <td>Description:</td>
+                        <td><%-products[i].description%></td>
+                    </tr>
+                    <tr>
+                        <td>Price:</td>
+                        <td><%-products[i].price%></td>
+                    </tr>
+                    <tr>
+                        <td>Type:</td>
+                        <td><%-products[i].type%></td>
+                    </tr>
+                    <tr>
+                        <td>Buyers:</td>
+                        <td><ul> <% for(k=0;k<products[i].buyers.length;k++){
+                            %>
+                            <li><%-products[i].buyers[k]%></li>
+                            <%
+                        }%></ul></td>
+                    </tr>
+                </table>
             </div> 
 
-            <br>
-            <br>
         <%}}%>
     </div>
     </body>
